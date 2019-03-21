@@ -136,7 +136,7 @@
                 <label class="main_checkbox">
                   <input type="checkbox">
                   <span class="checkmark"></span>
-                  Сверауслуг
+                  Сфера услуг
                 </label>
               </div>
             </div>
@@ -171,11 +171,11 @@
                 <div class="row">
                   <!-- приколхозил i иначе https://github.com/vuejs/vue/issues/7323 -->
                   <div class="col-xl-4" v-for="(shop, i) in shops" :key="`${i}-${shop}`">
-                    <a href="shop_full.html" class="shop_item">
+                    <a href class="shop_item">
                       <div class="shop_item__title">
                         <h3>{{shop.title}}</h3>
                         <div class="shop_item__title___right">
-                          <button class="like">
+                          <button class="like" @click="like(i)">
                             <i class="fas fa-heart"></i>
                           </button>
                         </div>
@@ -185,7 +185,6 @@
                           <div class="shop_avatar">
                             <!--<img src="./img/shop_avatar_70x70x2.png">-->
                             <img v-bind:src="shop.img">
-                            
                             <span>4,3</span>
                           </div>
                         </div>
@@ -209,23 +208,17 @@
         </div>
       </div>
     </div>
-    <!--{{shops[0].title}}-->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/>-->
   </div>
 </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld.vue'
 import axios from "axios";
 
 export default {
   name: "app",
-  components: {
-    //  HelloWorld
-  },
+  components: {},
   data() {
     return {
-      info: "",
       shops: [],
       shop: {},
       data: [],
@@ -234,8 +227,21 @@ export default {
       subtitle: ""
     };
   },
-  mounted() {
-    axios
+  methods: {
+    like: async function(i) {
+      await axios({
+        method: "post",
+        url: "http://localhost:3000/favoriteshops",
+        data: {
+          /*передал по i, указал в onclick и в методе*/
+          shops: this.shops[i].title,
+          like: true
+        }
+      });
+    }
+  },
+  mounted: async function() {
+    await axios
       .get("http://localhost:3000/listshops")
       .then(response => (this.shops = response.data));
   }
