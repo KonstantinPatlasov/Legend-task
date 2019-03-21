@@ -161,15 +161,20 @@
               </div>
               <div class="content_bar__sorting">
                 Сортировка:
-                <select>
-                  <option>Избраные</option>
-                </select>
+                <div class="content_bar__sorting__items">
+                  <h3 @click="favorite()">Избранное</h3>
+                  <h3 @click="newShops()">Новое</h3>
+                </div>
+
+                <!--<select>
+                  <option @click="favorite()">Избраные</option>
+                  <option>Новое</option>
+                </select>-->
               </div>
             </div>
             <div class="shop">
               <div class="container_fluid">
                 <div class="row">
-                  <!-- приколхозил i иначе https://github.com/vuejs/vue/issues/7323 -->
                   <div class="col-xl-4" v-for="(shop, i) in shops" :key="`${i}-${shop}`">
                     <a href class="shop_item">
                       <div class="shop_item__title">
@@ -233,11 +238,22 @@ export default {
         method: "post",
         url: "http://localhost:3000/favoriteshops",
         data: {
-          /*передал по i, указал в onclick и в методе*/
-          shops: this.shops[i].title,
+          title: this.shops[i].title,
+          img: this.shops[i].img,
+          subtitle: this.shops[i].subtitle,
           like: true
         }
       });
+    },
+    favorite: async function() {
+      await axios
+        .get("http://localhost:3000/favoriteshops")
+        .then(response => (this.shops = response.data));
+    },
+    newShops: async function() {
+      await axios
+        .get("http://localhost:3000/listshops")
+        .then(response => (this.shops = response.data));
     }
   },
   mounted: async function() {
