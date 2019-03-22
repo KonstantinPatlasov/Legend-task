@@ -165,11 +165,6 @@
                   <h3 @click="favorite()">Избранное</h3>
                   <h3 @click="newShops()">Новое</h3>
                 </div>
-
-                <!--<select>
-                  <option @click="favorite()">Избраные</option>
-                  <option>Новое</option>
-                </select>-->
               </div>
             </div>
             <div class="shop">
@@ -181,14 +176,14 @@
                         <h3>{{shop.title}}</h3>
                         <div class="shop_item__title___right">
                           <button class="like" @click="like(i)">
-                            <i class="fas fa-heart"></i>
+                            <!-- import icon faHeart in main.js -->
+                            <font-awesome-icon icon="heart"/>
                           </button>
                         </div>
                       </div>
                       <div class="shop_item__center">
                         <div class="shop_item__center___avatar">
                           <div class="shop_avatar">
-                            <!--<img src="./img/shop_avatar_70x70x2.png">-->
                             <img v-bind:src="shop.img">
                             <span>4,3</span>
                           </div>
@@ -218,7 +213,6 @@
 
 <script>
 import axios from "axios";
-
 export default {
   name: "app",
   components: {},
