@@ -175,7 +175,8 @@
                       <div class="shop_item__title">
                         <h3>{{shop.title}}</h3>
                         <div class="shop_item__title___right">
-                          <button class="like" @click="like(i)">
+                          <!--без перезагрузки страницы-->
+                          <button class="like" @click.prevent="like(i)">
                             <!-- import icon faHeart in main.js -->
                             <font-awesome-icon icon="heart"/>
                           </button>
@@ -228,16 +229,15 @@ export default {
   },
   methods: {
     like: async function(i) {
-      await axios({
-        method: "post",
-        url: "http://localhost:3000/favoriteshops",
-        data: {
-          title: this.shops[i].title,
-          img: this.shops[i].img,
-          subtitle: this.shops[i].subtitle,
-          like: true
-        }
+      await axios.post("http://localhost:3000/favoriteshops", {
+        title: this.shops[i].title,
+        img: this.shops[i].img,
+        subtitle: this.shops[i].subtitle,
+        like: true
       });
+      await axios
+        .get("http://localhost:3000/favoriteshops")
+        .then(response => (this.shops = response.data));
     },
     favorite: async function() {
       await axios
