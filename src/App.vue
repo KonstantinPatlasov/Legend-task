@@ -78,7 +78,6 @@
               <a href="index.html" class="act">Заведения</a>
               <a href="cashback.html">Кэшбэк</a>
             </div>
-
             <div class="toolbar_menu__dropdown">
               <div class="dropdown">
                 <button
@@ -235,9 +234,6 @@ export default {
         subtitle: this.shops[i].subtitle,
         like: true
       });
-      await axios
-        .get("http://localhost:3000/favoriteshops")
-        .then(response => (this.shops = response.data));
     },
     favorite: async function() {
       await axios
